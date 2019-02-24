@@ -1,0 +1,27 @@
+.circles {
+  $red: darkred;
+  $size: 60px;
+  $grey: #c7c7c7;
+  position: relative;
+  z-index: 0;
+
+  display: flex;
+  width: 200px;
+  height: 200px;
+  background-color: $grey;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  &__first,
+  &__second,
+  &__third {
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background-color: $red;
+    margin-left: 10px;
+  }
+  &__first {
+    margin: 0;
+  }
+}

@@ -1,0 +1,25 @@
+.controls {
+  $brown: #4c0f0f;
+  $white: #fff;
+  $red: #ce0606;
+
+  display: flex;
+  margin-bottom: 20px;
+
+  &__button {
+    background-color: $brown;
+    color: $white;
+    font-weight: bold;
+    padding: 15px;
+    margin-left: 10px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $red;
+    }
+
+    &:first-child {
+      margin: 0;
+    }
+  }
+}
