@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useRefGroup from 'ref-groupie';
+import useRefGroup from 'react-ref-groupie';
 
 import './controls.scss';
 
@@ -13,13 +13,13 @@ const Controls = ({
   <div className="controls">
     <div
       className="controls__button"
-      onClick={circles.moveUp}
+      onClick={circles.moveDown}
     >
       Circles down
     </div>
     <div
       className="controls__button"
-      onClick={circles.moveDown}
+      onClick={circles.moveUp}
     >
       Circles up
     </div>

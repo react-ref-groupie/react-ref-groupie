@@ -11,78 +11,61 @@ function processConfig(config) {
       var refs = {};
       var result = {};
       var key;
-      var valid = true;
-
-      if (currentConfig.refs) {
-        helpers.splitTemplate(currentConfig.refs)
-          .forEach(function(refName) {
-            if (refs[refName]) {
-              console.error(`Ref group ${configKey} have naming collision on ` +
-                `${refName} name, please fix it`);
-              return;
-            }
-
-            refs[refName] = createRef();
-
-            Object.defineProperty(result, refName, {
-              get() {
-                if (refs[refName].current === null) {
-                  return refs[refName];
-                }
-                console.warn('Check your ref usage! Each ref should be used ones ' +
-                  'at a time');
-                valid = false;
-              }
-            });
-          });
-      }
-
-      if (currentConfig.globals) {
-        helpers.splitTemplate(currentConfig.globals)
-          .forEach(function(globalName) {
-            if (refs[globalName]) {
-              console.error(`Ref group ${configKey} have naming collision on ` +
-                `${globalName} name, please fix it`);
-              return;
-            }
-
-            if (!globals[globalName]) {
-              globals[globalName] = createRef();
-            }
-            refs[globalName] = globals[globalName];
-
-            Object.defineProperty(result, globalName, {
-              get() {
-                if (refs[globalName].current === null) {
-                  return refs[globalName];
-                }
-                console.warn('Check your ref usage! Each global ref should be used ones ' +
-                  'at a time');
-                valid = false;
-              }
-            });
-          });
-      }
+      var refUsageErrors = [];
 
       for (key in currentConfig) {
-        if (key === 'refs' || key === 'globals') {
-          continue;
-        }
+        (function(key) {
+          switch(key) {
+            case 'refs':
+            case 'globals': {
+              helpers.splitTemplate(currentConfig[key])
+                .forEach(function(refName) {
+                  if (refs[refName]) {
+                    helpers.logNameCollisionError(configKey, refName);
+                    return;
+                  }
 
-        if (refs[key]) {
-          console.error(`Ref group ${configKey} have naming collision on ` +
-            `${key} name, please fix it`);
-          continue;
-        }
+                  if (key === 'refs') {
+                    refs[refName] = createRef();
+                  } else {
+                    if (!globals[refName]) {
+                      globals[refName] = createRef();
+                    }
+                    refs[refName] = globals[refName];
+                  }
 
-        result[key] = function(args) {
-          if (!valid) {
-            console.warn('Check your ref usage! Each ref should be used ones ' +
-            'at a time');
-            return;
+                  Object.defineProperty(result, refName, {
+                    get() {
+                      if (refs[refName].current === null) {
+                        return refs[refName];
+                      }
+
+                      refUsageErrors.push({ group: configKey, ref: refName });
+                      helpers.logRefUsageError(refUsageErrors);
+                    }
+                  });
+                });
+
+              break;
+            }
+
+            default: {
+              if (refs[key]) {
+                helpers.logNameCollisionError(configKey, key);
+                return;
+              }
+
+              result[key] = function(args) {
+                if (refUsageErrors.length > 0) {
+                  helpers.logRefUsageError(refUsageErrors);
+                  return;
+                }
+
+                currentConfig[key](helpers.getRefsCurrent(refs), args);
+              }
+            }
           }
-          currentConfig[key](helpers.getRefsCurrent(refs), args);
-        }
+        })(key);
       }
 
       return result;

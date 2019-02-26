@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useRefGroup from 'ref-groupie';
+import useRefGroup from 'react-ref-groupie';
 
 import './halo.scss'
 

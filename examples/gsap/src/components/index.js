@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RefProvider } from 'ref-groupie';
+import { RefProvider } from 'react-ref-groupie';
 
 import refConfig from '../ref-config';
 import Controls from './controls';

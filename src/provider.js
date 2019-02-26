@@ -2,12 +2,12 @@ var React = require('react');
 var processConfig = require('./process-config');
 var RefGroupContext = React.createContext();
 
-function RefProvider({ children, config }) {
+function RefProvider(props) {
   return React.createElement(
     RefGroupContext.Provider,
     {
-      value: processConfig(config),
-      children
+      value: processConfig(props.config),
+      children: props.children
     },
   );
 }

@@ -1,6 +1,6 @@
 {
-  "name": "ref-groupie",
-  "version": "0.1.0",
+  "name": "react-ref-groupie",
+  "version": "0.1.1",
   "description": "React refs context manager",
   "keywords": [
     "react",
