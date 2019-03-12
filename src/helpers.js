@@ -1,3 +1,5 @@
+var reactCreateRef = require('react').createRef;
+
 function splitTemplate(str) {
   return str
     .replace(/\s+/g, ' ')
@@ -9,14 +11,21 @@ function getRefsCurrent(obj) {
   var res = {};
   var key;
   for (key in obj) {
-    res[key] = obj[key].current;
+    res[key] = obj[key].ref.current;
   }
   return res;
 }
 
+function createRef() {
+  return {
+    ref: reactCreateRef(),
+    locked: false
+  };
+}
+
 function logNameCollisionError(groupName, refName) {
-  console.error(`Ref group [${groupName}] have naming collision on ` +
-    `name [${refName}], check your config`);
+  console.error('Ref group [' + groupName + '] have naming collision on ' +
+    'name [' + refName + '], check your config');
 }
 
 function logRefUsageError(refUsageErrors) {
@@ -37,5 +46,6 @@ module.exports = {
   splitTemplate,
   getRefsCurrent,
   logNameCollisionError,
-  logRefUsageError
+  logRefUsageError,
+  createRef
 };

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import useRefGroup from 'react-ref-groupie';
+import useRefGroups from 'react-ref-groupie';
 
 import './controls.scss';
 
 const Controls = ({
-  refGroupie: {
+  refGroupsMethods: {
     circles,
     squares
   }
@@ -38,4 +38,4 @@ const Controls = ({
   </div>
 );
 
-export default useRefGroup(Controls);
+export default useRefGroups(Controls);

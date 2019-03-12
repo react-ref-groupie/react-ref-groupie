@@ -1,15 +1,21 @@
 import React from 'react';
 
-import useRefGroup from 'react-ref-groupie';
+import useRefGroups from 'react-ref-groupie';
 
 import './halo.scss'
 
-const Halo = ({
-  refGroupie: {
+const ClassHalo = ({
+  getRefGroups
+}) => {
+  const {
     circles: {
       halo
     }
-  }
-}) => <div ref={halo} className="halo" />;
+  } = getRefGroups({
+    circles: 'halo'
+  });
 
-export default useRefGroup(Halo);
+  return <div ref={halo} className="halo" />
+};
+
+export default useRefGroups(ClassHalo);

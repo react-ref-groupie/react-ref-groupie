@@ -29,8 +29,11 @@ export default {
       })
       .to(firstCircle, 0.5, { y: 140 })
       .to(secondCircle, 0.5, { y: 140 })
-      .to(thirdCircle, 0.5, { y: 140 })
-      .eventCallback('onComplete', callback);
+      .to(thirdCircle, 0.5, { y: 140 });
+
+    if (typeof callback === "function") {
+      animationExample.eventCallback('onComplete', callback);
+    }
 
     animationExample.play();
   },
@@ -53,8 +56,11 @@ export default {
       })
       .to(firstCircle, 0.5, { y: 0 })
       .to(secondCircle, 0.5, { y: 0 })
-      .to(thirdCircle, 0.5, { y: 0 })
-      .eventCallback("onComplete", callback);
+      .to(thirdCircle, 0.5, { y: 0 });
+
+    if (typeof callback === "function") {
+      animationExample.eventCallback("onComplete", callback);
+    }
 
     animationExample.play();
   },

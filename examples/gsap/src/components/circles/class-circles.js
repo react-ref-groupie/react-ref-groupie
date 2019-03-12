@@ -1,31 +1,29 @@
 import React from 'react';
-import useRefGroup from 'react-ref-groupie';
+import useRefGroups from 'react-ref-groupie';
 
 import './circles.scss';
 
 class Circles extends React.Component {
   constructor(props) {
     super(props);
-    const {
-      refGroupie: {
-        circles: {
-          firstCircle,
-          secondCircle,
-          thirdCircle
-        },
-      },
-    } = this.props;
 
-    this.firstCircle = firstCircle;
-    this.secondCircle = secondCircle;
-    this.thirdCircle = thirdCircle;
+    this.refGroups = props.getRefGroups({
+      circles: `
+        firstCircle
+        secondCircle
+        thirdCircle
+      `
+    });
 
-    this.state = { toggled: false, num: 0 };
+    this.state = {
+      toggled: false,
+      num: 0
+    };
   }
 
   toggle = () => {
     const {
-      refGroupie: {
+      refGroupsMethods: {
         circles: {
           moveUp,
           moveDown
@@ -46,6 +44,13 @@ class Circles extends React.Component {
 
   render() {
     const { num } = this.state;
+    const {
+      circles: {
+        firstCircle,
+        secondCircle,
+        thirdCircle
+      }
+    } = this.refGroups;
 
     return (
       <div
@@ -53,17 +58,17 @@ class Circles extends React.Component {
         className="circles"
       >
         <div
-          ref={this.firstCircle}
+          ref={firstCircle}
           className="circles__first"
         />
         <div
-          ref={this.secondCircle}
+          ref={secondCircle}
           className="circles__second"
         >
           {num}
         </div>
         <div
-          ref={this.thirdCircle}
+          ref={thirdCircle}
           className="circles__third"
         />
       </div>
@@ -71,4 +76,4 @@ class Circles extends React.Component {
   }
 }
 
-export default useRefGroup(Circles);
+export default useRefGroups(Circles);

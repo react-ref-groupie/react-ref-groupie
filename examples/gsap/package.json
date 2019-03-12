@@ -6,6 +6,7 @@
     "gsap": "^2.1.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-ref-groupie": "^0.1.1",
     "react-scripts": "2.1.5"
   },
   "scripts": {

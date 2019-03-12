@@ -29,8 +29,11 @@ export default {
       })
       .to(firstSquare, 0.5, { x: 140 })
       .to(secondSquare, 0.5, { x: 140 })
-      .to(thirdSquare, 0.5, { x: 140 })
-      .eventCallback('onComplete', callback);;
+      .to(thirdSquare, 0.5, { x: 140 });
+
+    if (typeof callback === "function") {
+      animationExample.eventCallback('onComplete', callback);
+    }
 
     animationExample.play();
   },
@@ -53,8 +56,11 @@ export default {
       })
       .to(firstSquare, 0.5, { x: 0 })
       .to(secondSquare, 0.5, { x: 0 })
-      .to(thirdSquare, 0.5, { x: 0 })
-      .eventCallback('onComplete', callback);;
+      .to(thirdSquare, 0.5, { x: 0 });
+
+    if (typeof callback === "function") {
+      animationExample.eventCallback('onComplete', callback);
+    }
 
     animationExample.play();
   }

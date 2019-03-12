@@ -1,6 +1,6 @@
 {
   "name": "react-ref-groupie",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "React refs context manager",
   "keywords": [
     "react",
@@ -30,5 +30,8 @@
       "path": "index.js",
       "limit": "540 B"
     }
-  ]
+  ],
+  "dependencies": {
+    "create-react-class": "^15.6.3"
+  }
 }

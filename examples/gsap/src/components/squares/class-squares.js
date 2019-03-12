@@ -1,34 +1,32 @@
 import React from 'react';
-import useRefGroup from 'react-ref-groupie';
+import useRefGroups from 'react-ref-groupie';
 
 import './squares.scss';
 
 class Squares extends React.Component {
   constructor(props) {
     super(props);
-    const {
-      refGroupie: {
-        squares: {
-          firstSquare,
-          secondSquare,
-          thirdSquare
-        },
-      },
-    } = this.props;
 
-    this.firstSquare = firstSquare;
-    this.secondSquare = secondSquare;
-    this.thirdSquare = thirdSquare;
+    this.refGroups = props.getRefGroups({
+      squares: `
+        firstSquare
+        secondSquare
+        thirdSquare
+      `
+    });
 
-    this.state = { toggled: false, num: 0 };
+    this.state = {
+      toggled: false,
+      num: 0
+    };
   }
 
   toggle = () => {
     const {
-      refGroupie: {
+      refGroupsMethods: {
         squares: {
-          moveRight,
-          moveLeft
+          moveLeft,
+          moveRight
         }
       }
     } = this.props;
@@ -46,6 +44,13 @@ class Squares extends React.Component {
 
   render() {
     const { num } = this.state;
+    const {
+      squares: {
+        firstSquare,
+        secondSquare,
+        thirdSquare
+      }
+    } = this.refGroups;
 
     return (
       <div
@@ -53,17 +58,17 @@ class Squares extends React.Component {
         className="squares"
       >
         <div
-          ref={this.firstSquare}
+          ref={firstSquare}
           className="squares__first"
         />
         <div
-          ref={this.secondSquare}
+          ref={secondSquare}
           className="squares__second"
         >
           {num}
         </div>
         <div
-          ref={this.thirdSquare}
+          ref={thirdSquare}
           className="squares__third"
         />
       </div>
@@ -71,4 +76,4 @@ class Squares extends React.Component {
   }
 }
 
-export default useRefGroup(Squares);
+export default useRefGroups(Squares);
