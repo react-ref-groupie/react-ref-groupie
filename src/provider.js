@@ -1,8 +1,9 @@
-var React = require('react');
-var processConfig = require('./process-config');
-var RefGroupContext = React.createContext();
+import React from 'react';
+import processConfig from './process-config';
 
-function RefProvider(props) {
+export const RefGroupContext = React.createContext();
+
+export const RefProvider = (props) => {
   return React.createElement(
     RefGroupContext.Provider,
     {
@@ -11,8 +12,3 @@ function RefProvider(props) {
     },
   );
 }
-
-module.exports = {
-  RefGroupContext,
-  RefProvider
-};

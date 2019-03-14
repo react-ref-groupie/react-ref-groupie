@@ -1,5 +1,6 @@
 import React from 'react';
 import useRefGroups from 'react-ref-groupie';
+
 import useIterateState from '../use-iterate-state';
 
 import './circles.scss';
@@ -31,7 +32,7 @@ const StatelessCircles = ({
 
   return (
     <div
-      onClick={iterate(moveUp, moveDown)}
+      onClick={iterate(moveDown, moveUp)}
       className="circles"
     >
       <div

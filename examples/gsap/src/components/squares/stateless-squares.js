@@ -1,5 +1,6 @@
 import React from 'react';
 import useRefGroups from 'react-ref-groupie';
+
 import useIterateState from '../use-iterate-state';
 
 import './squares.scss';
@@ -31,7 +32,7 @@ const StatelessSquares = ({
 
   return (
     <div
-      onClick={iterate(moveLeft, moveRight)}
+      onClick={iterate(moveRight, moveLeft)}
       className="squares"
     >
       <div

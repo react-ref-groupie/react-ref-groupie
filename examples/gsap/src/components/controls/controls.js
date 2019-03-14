@@ -1,5 +1,4 @@
 import React from 'react';
-
 import useRefGroups from 'react-ref-groupie';
 
 import './controls.scss';

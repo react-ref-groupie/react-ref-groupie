@@ -1,37 +1,33 @@
-var reactCreateRef = require('react').createRef;
+import { createRef as reactCreateRef } from 'react';
 
-function splitTemplate(str) {
-  return str
+export const splitTemplate = (str) =>
+  str
     .replace(/\s+/g, ' ')
     .trim()
     .split(' ');
-}
 
-function getRefsCurrent(obj) {
-  var res = {};
-  var key;
-  for (key in obj) {
+export const getRefsCurrent = (obj) => {
+  const res = {};
+  for (let key in obj) {
     res[key] = obj[key].ref.current;
   }
   return res;
 }
 
-function createRef() {
-  return {
-    ref: reactCreateRef(),
-    locked: false
-  };
+export const createRef = () => ({
+  ref: reactCreateRef(),
+  locked: false
+});
+
+export const logNameCollisionError = (groupName, refName) => {
+  console.error(`Ref group [${groupName}] have naming collision on ` +
+    `name [${refName}], check your config`);
 }
 
-function logNameCollisionError(groupName, refName) {
-  console.error('Ref group [' + groupName + '] have naming collision on ' +
-    'name [' + refName + '], check your config');
-}
+export const logRefUsageError = (refUsageErrors) => {
+  const errorMessage = 'Check your ref usage - each ref should be used ones at a time:/n';
 
-function logRefUsageError(refUsageErrors) {
-  var errorMessage = 'Check your ref usage - each ref should be used ones at a time:/n';
-
-  refUsageErrors.forEach(function(refUsageError) {
+  refUsageErrors.forEach((refUsageError) => {
     errorMessage += 'group ['
       + refUsageError.group
       + '] - ref ['
@@ -41,11 +37,3 @@ function logRefUsageError(refUsageErrors) {
 
   console.error(errorMessage);
 }
-
-module.exports = {
-  splitTemplate,
-  getRefsCurrent,
-  logNameCollisionError,
-  logRefUsageError,
-  createRef
-};

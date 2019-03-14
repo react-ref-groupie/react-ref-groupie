@@ -3,16 +3,23 @@ import React from 'react';
 const useIterateState = (WrappedComponent) => {
   class StatefullWrapper extends React.Component {
     state = {
-      num: 0
+      num: 0,
+      toggled: false
     };
 
     iterate = (caller1, caller2) => () => {
-      this.state.num % 2 === 0
-        ? caller1(this.increment)
-        : caller2(this.increment);
+      const { toggled } = this.state;
+
+      if (toggled) {
+        caller2(this.increment);
+      } else {
+        caller1(this.increment);
+      }
+
+      this.setState(({ toggled }) => ({ toggled: !toggled }));
     };
 
-    increment = () => this.state(({ num }) => ({ num: ++num }));
+    increment = () => this.setState(({ num }) => ({ num: ++num }));
 
     render() {
       return (

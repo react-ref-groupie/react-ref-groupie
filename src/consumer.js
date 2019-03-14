@@ -1,72 +1,123 @@
-var React = require('react');
-var createReactClass = require('create-react-class');
-var RefGroupContext = require('./provider').RefGroupContext;
-var helpers = require('./helpers');
+import React from 'react';
+import { RefGroupContext } from './provider';
+import { splitTemplate } from './helpers';
 
-var GroupManager = createReactClass({
-  getRefGroups: function(obj) {
-    var groupName, refGroup;
-    var self = this;
-    var result = {};
-    var mockObject = {};
-    var internalRefs = this.props.refGroups.internalRefs;
-    var blockGroups = this.props.refGroups.blockGroups;
-    this.mark = this.mark || Math.random();
-    this.refBuffer = this.refBuffer || [];
+class GroupManager extends React.Component {
+  constructor(props) {
+    super(props);
 
-    for (groupName in obj) {
-      result[groupName] = {};
-      mockObject[groupName] = {};
-      if (!internalRefs[groupName]) {
-        // TODO: add warning if there is no such group
-        break;
-      }
+    this.state = { ready: false };
+    this.memoized = {};
+  }
 
-      refGroup = internalRefs[groupName];
+  componentDidMount = () => {
+    this.setState({ ready: true });
+  }
 
-      helpers
-        .splitTemplate(obj[groupName])
-        .forEach(function(refName) {
-          if (!refGroup[refName]) {
-            // TODO: add warning that there is not such ref in config
-            return;
-          } else if (refGroup[refName].locked) {
-            if (!self.invalid) {
-              blockGroups(obj, self.mark);
-            }
-            self.invalid = true;
-            return;
-          }
-          self.refBuffer.push(refGroup[refName]);
-          result[groupName][refName] = refGroup[refName].ref;
-        });
-    }
-
-    if (this.invalid) {
-      return mockObject;
-    }
-
-    this.refBuffer.forEach(function(refObj) {
-      refObj.locked = true;
-    });
-    return result;
-  },
-
-  componentWillUnmount: function() {
+  componentWillUnmount = () => {
     if (this.invalid) {
       this.props.refGroups.unblockGroups(this.mark);
       return;
     }
 
-    this.refBuffer && this.refBuffer.forEach(function(refObj) {
-      refObj.locked = false;
-    });
-  },
+    for (let groupName in this.memoized) {
+      for (let refName in this.memoized[groupName]) {
+        this.memoized[groupName][refName].locked = false;
+      }
+    }
+  }
 
-  render: function() {
-    var refGroupsMethods = this.props.refGroups.refGroupsMethods;
-    var WrappedComponent = this.props.WrappedComponent;
-    var wrappedComponentProps = this.props.wrappedComponentProps;
+  getRefGroups = (obj) => {
+    this.mark = this.mark || Math.random();
+
+    const mockObject = {};
+    const {
+      refGroups: {
+        internalRefs,
+        blockGroups
+      }
+    } = this.props;
+
+    const keepRefs = {};
+    let result;
+    try {
+      result = Object.keys(obj).reduce(
+        (accum, groupName) => {
+          accum[groupName] = {};
+          mockObject[groupName] = {};
+          keepRefs[groupName] = {};
+          this.memoized[groupName] = this.memoized[groupName] || {};
+
+          if (!internalRefs[groupName]) {
+            // TODO: add warning if there is no such group
+            return accum;
+          }
+
+          const refNames = splitTemplate(obj[groupName]);
+          refNames.forEach((refName) => {
+            if (this.memoized[groupName][refName]) {
+              // repeated
+              accum[groupName][refName] = this.memoized[groupName][refName].ref;
+            } else {
+              // lock
+              const refGroup = internalRefs[groupName];
+
+              if (!refGroup[refName]) {
+                // TODO: add warning that there is not such ref in config
+                return accum;
+              } else if (refGroup[refName].locked) {
+                if (!this.invalid) {
+                  blockGroups(obj, this.mark);
+                }
+                this.invalid = true;
+                throw new Error();
+              }
+
+              accum[groupName][refName] = refGroup[refName].ref;
+              this.memoized[groupName][refName] = refGroup[refName];
+              refGroup[refName].locked = true;
+            }
+
+            keepRefs[groupName][refName] = true;
+          });
+
+          return accum;
+        },
+        {}
+      );
+    } catch (e) {
+      return mockObject;
+    }
+
+    // unlock and delete from memoized
+    for (let groupName in this.memoized) {
+      for (let refName in this.memoized[groupName]) {
+        if (keepRefs[groupName][refName]) {
+          break;
+        }
+
+        this.memoized[groupName][refName].locked = false;
+        delete this.memoized[groupName][refName];
+      }
+    }
+
+    return result;
+  }
+
+  render() {
+    const { ready } = this.state;
+
+    if (!ready) {
+      return null;
+    }
+
+    const {
+      refGroups: {
+        refGroupsMethods,
+      },
+      WrappedComponent,
+      wrappedComponentProps
+    } = this.props;
 
     return React.createElement(
       WrappedComponent,
@@ -80,14 +131,14 @@ var GroupManager = createReactClass({
       )
     );
   }
-});
+}
 
-function RefConsumer(WrappedComponent) {
-  return function(props) {
+const RefConsumer = (WrappedComponent) => {
+  return (props) => {
     return React.createElement(
       RefGroupContext.Consumer,
       null,
-      function(refGroups) {
+      (refGroups) => {
         return React.createElement(
           GroupManager,
           {
@@ -101,4 +152,4 @@ function RefConsumer(WrappedComponent) {
   };
 }
 
-module.exports = RefConsumer;
+export default RefConsumer;
