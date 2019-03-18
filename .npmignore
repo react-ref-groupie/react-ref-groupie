@@ -1,11 +1,14 @@
 .git*
 .gitignore
 .npmignore
+.babelrc
 .editorconfig
 
 node-modules/
+src/
 test/
 examples/
 coverage/
 
 package-lock.json
+CHANGELOG.md

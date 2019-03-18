@@ -1,6 +1,6 @@
 {
   "name": "react-ref-groupie",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "React refs context manager",
   "keywords": [
     "react",
@@ -11,6 +11,7 @@
   "module": "src/index.js",
   "author": "Misha Pachin <misha.pachin@gmail.com> (https://tech-agnostic.me/)",
   "scripts": {
+    "build": "babel src -d lib",
     "lint": "eslint-ci *.js",
     "test": "size-limit"
   },
@@ -18,6 +19,11 @@
     "react": "^16.8.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
     "eslint": "^5.12.1",
     "eslint-ci": "^1.0.0",
     "eslint-config-standard": "^12.0.0",

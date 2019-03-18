@@ -119,35 +119,30 @@ class GroupManager extends React.Component {
       wrappedComponentProps
     } = this.props;
 
-    return React.createElement(
-      WrappedComponent,
-      Object.assign(
-        {},
-        wrappedComponentProps,
-        {
-          refGroupsMethods,
-          getRefGroups: this.getRefGroups
-        }
-      )
+    return (
+      <WrappedComponent
+        {...wrappedComponentProps}
+        refGroupsMethods={refGroupsMethods}
+        getRefGroups={this.getRefGroups}
+      />
     );
   }
 }
 
 const RefConsumer = (WrappedComponent) => {
   return (props) => {
-    return React.createElement(
-      RefGroupContext.Consumer,
-      null,
-      (refGroups) => {
-        return React.createElement(
-          GroupManager,
-          {
-            refGroups,
-            WrappedComponent,
-            wrappedComponentProps: props
-          }
-        )
-      }
+    return (
+      <RefGroupContext.Consumer>
+        {
+          (refGroups) => (
+            <GroupManager
+              refGroups={refGroups}
+              WrappedComponent={WrappedComponent}
+              wrappedComponentProps={props}
+            />
+          )
+        }
+      </RefGroupContext.Consumer>
     );
   };
 }

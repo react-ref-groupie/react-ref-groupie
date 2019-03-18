@@ -4,7 +4,7 @@ import useRefGroups from 'react-ref-groupie';
 
 import './halo.scss'
 
-const ClassHalo = ({
+const Halo = ({
   getRefGroups
 }) => {
   const {
@@ -18,4 +18,4 @@ const ClassHalo = ({
   return <div ref={halo} className="halo" />
 };
 
-export default useRefGroups(ClassHalo);
+export default useRefGroups(Halo);
