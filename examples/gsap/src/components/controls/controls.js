@@ -1,5 +1,5 @@
 import React from 'react';
-import useRefGroups from 'react-ref-groupie';
+import { consumeRefs } from 'react-ref-groupie';
 
 import './controls.scss';
 
@@ -37,4 +37,4 @@ const Controls = ({
   </div>
 );
 
-export default useRefGroups(Controls);
+export default consumeRefs(Controls);

@@ -1,5 +1,5 @@
 import React from 'react';
-import useRefGroups from 'react-ref-groupie';
+import { consumeRefs } from 'react-ref-groupie';
 
 import './circles.scss';
 
@@ -76,4 +76,4 @@ class Circles extends React.Component {
   }
 }
 
-export default useRefGroups(Circles);
+export default consumeRefs(Circles);

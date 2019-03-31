@@ -1,6 +1,5 @@
 import React from 'react';
-
-import useRefGroups from 'react-ref-groupie';
+import { consumeRefs } from 'react-ref-groupie';
 
 import './halo.scss'
 
@@ -18,4 +17,4 @@ const Halo = ({
   return <div ref={halo} className="halo" />
 };
 
-export default useRefGroups(Halo);
+export default consumeRefs(Halo);

@@ -1,5 +1,5 @@
 import React from 'react';
-import useRefGroups from 'react-ref-groupie';
+import { consumeRefs } from 'react-ref-groupie';
 
 import useIterateState from '../use-iterate-state';
 
@@ -53,4 +53,4 @@ const StatelessCircles = ({
   );
 };
 
-export default useIterateState(useRefGroups(StatelessCircles));
+export default useIterateState(consumeRefs(StatelessCircles));

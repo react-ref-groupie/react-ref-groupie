@@ -1,5 +1,5 @@
 import React from 'react';
-import useRefGroups from 'react-ref-groupie';
+import { consumeRefs } from 'react-ref-groupie';
 
 import './squares.scss';
 
@@ -76,4 +76,4 @@ class Squares extends React.Component {
   }
 }
 
-export default useRefGroups(Squares);
+export default consumeRefs(Squares);

@@ -1,6 +1,6 @@
 {
   "name": "react-ref-groupie",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "React refs context manager",
   "keywords": [
     "react",
@@ -37,5 +37,9 @@
       "limit": "540 B"
     }
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mpachin/react-ref-groupie.git"
+  }
 }

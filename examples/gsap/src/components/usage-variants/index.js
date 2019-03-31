@@ -2,7 +2,7 @@ import React from 'react';
 
 import ClassComponents from './class-components';
 import StatelessHoc from './stateless-hoc';
-// import StatelessWithHooks from './stateless-with-hooks';
+import StatelessHooks from './stateless-hooks';
 
 class UsageVariants extends React.Component {
   state = {
@@ -19,12 +19,12 @@ class UsageVariants extends React.Component {
       <React.Fragment>
         <ul>
           <li onClick={this.changeTab(0)}>Class components usage</li>
-          <li onClick={this.changeTab(1)}>Invalid stateless usage</li>
-          <li onClick={this.changeTab(2)}>Stateless valid usage</li>
+          <li onClick={this.changeTab(1)}>Stateless hook usage</li>
+          <li onClick={this.changeTab(2)}>Stateless HOC usage</li>
         </ul>
         {tab === 0 && <ClassComponents />}
-        {tab === 1 && <StatelessHoc />}
-        {/* tab === 2 && <StatelessWithHooks /> */}
+        {tab === 1 && <StatelessHooks />}
+        {tab === 2 && <StatelessHoc />}
       </React.Fragment>
     );
   }
