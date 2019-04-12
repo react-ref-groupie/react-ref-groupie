@@ -270,7 +270,9 @@ If this is your case and you sure that this case is correct for your situation, 
 
 # Examples
 
-In the project repository you can find directory named `examples`. For now there is a complete [RCA](https://github.com/facebook/create-react-app)-based app which shows integration with [GSAP](https://greensock.com/gsap). With time new example apps may emerge in that directory, however implementations will be about the same core concept of handling ref manipulations in configs.
+* [Integration with GSAP](https://react-ref-groupie.github.io/example-gsap/) [[repo](https://github.com/react-ref-groupie/example-gsap)] - this is a complete [RCA](https://github.com/facebook/create-react-app)-based app which shows `react-ref-groupie` integration with [GSAP](https://greensock.com/gsap).
+
+With time new example apps may emerge, however implementations will be about the same core concept of handling ref manipulations in configs.
 
 # Roadmap
 
