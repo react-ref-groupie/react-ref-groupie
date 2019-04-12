@@ -1,28 +1,30 @@
+import { createRef } from 'react';
+
 import {
   splitTemplate,
   logNameCollisionError,
-  createRef,
   logRefUsageError,
   getRefsCurrent
 } from './helpers';
+
+const REFS = 'refs';
+const GLOBALS = 'globals';
 
 const processConfig = (config) => {
   const refGroupsMethods = {};
   const refs = {};
   const globals = {};
-  const blockedGroups = {};
 
   for (let configKey in config) {
     const currentConfig = config[configKey];
-    const refUsageErrors = [];
 
     refGroupsMethods[configKey] = {};
     refs[configKey] = {};
 
     for (let key in currentConfig) {
       switch(key) {
-        case 'refs':
-        case 'globals': {
+        case REFS:
+        case GLOBALS: {
           splitTemplate(currentConfig[key])
             .forEach((refName) => {
               if (refs[configKey][refName]) {
@@ -30,11 +32,17 @@ const processConfig = (config) => {
                 return;
               }
 
-              if (key === 'refs') {
-                refs[configKey][refName] = createRef();
+              if (key === REFS) {
+                refs[configKey][refName] = {
+                  ref: createRef(),
+                  lockedOn: []
+                };
               } else {
                 if (!globals[refName]) {
-                  globals[refName] = createRef();
+                  globals[refName] = {
+                    ref: createRef(),
+                    lockedOn: []
+                  };
                 }
                 refs[configKey][refName] = globals[refName];
               }
@@ -50,10 +58,15 @@ const processConfig = (config) => {
           }
 
           refGroupsMethods[configKey][key] = (args) => {
-            if (refUsageErrors.length > 0) {
-              logRefUsageError(refUsageErrors);
+            const refGroupValid = Object.keys(refs[configKey]).reduce((accum, refKey) => {
+              return accum && refs[configKey][refKey].lockedOn.length <= 1;
+            }, true);
+
+            if (!refGroupValid) {
+              logRefUsageError(configKey);
               return;
             }
+
             currentConfig[key](
               getRefsCurrent(refs[configKey]),
               args
@@ -64,31 +77,9 @@ const processConfig = (config) => {
     }
   };
 
-  const blockGroups = (blockingGroups, consumerMark) => {
-    for (let key in blockingGroups) {
-      if (config[key]) {
-        blockedGroups[key] = (blockedGroups[key] || [])
-          .concat(consumerMark);
-      }
-    }
-  };
-
-  const unblockGroups = (consumerMark) => {
-    for (let key in blockedGroups) {
-      const index = blockedGroups[key].indexOf(consumerMark);
-
-      if (index !== -1) {
-        blockedGroups[key].splice(index, 1);
-      }
-    }
-  };
-
   return {
     refGroupsMethods,
-    internalRefs: refs,
-    blockGroups,
-    unblockGroups,
-    blockedGroups
+    internalRefs: refs
   };
 };
 

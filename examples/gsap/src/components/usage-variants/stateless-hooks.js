@@ -3,15 +3,15 @@ import React from 'react';
 import Controls from '../controls';
 import { StatelessCirclesHook } from '../circles';
 import { StatelessSquaresHook } from '../squares';
-import Halo from '../halo';
+import { StatelessHaloHook } from '../halo';
 
-const InvalidStateless = () => (
+const StatelessHooks = () => (
   <div className="app">
-    <Halo />
+    <StatelessHaloHook />
     <Controls />
     <StatelessCirclesHook />
     <StatelessSquaresHook />
   </div>
 );
 
-export default InvalidStateless;
+export default StatelessHooks;

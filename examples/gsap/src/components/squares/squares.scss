@@ -1,10 +1,13 @@
+@import '../variables.scss';
+
 .squares {
   $blue: #030669;
   $size: 60px;
-  $grey: #c7c7c7;
+  $white: #fff;
 
+  border: 1px solid $black;
   text-align: center;
-  color: white;
+  color: $white;
   font-weight: bold;
   font-size: 18px;
   line-height: 58px;
@@ -14,7 +17,6 @@
   flex-direction: column;
   width: 200px;
   height: 200px;
-  background-color: $grey;
   padding: 10px;
 
   &__first,

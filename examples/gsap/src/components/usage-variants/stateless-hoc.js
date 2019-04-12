@@ -1,17 +1,17 @@
 import React from 'react';
 
 import Controls from '../controls';
-import { StatelessCirclesHoc } from '../circles';
-import { StatelessSquaresHoc } from '../squares';
-import Halo from '../halo';
+import { StatelessCirclesHOC } from '../circles';
+import { StatelessSquaresHOC } from '../squares';
+import { StatelessHaloHOC } from '../halo';
 
-const InvalidStateless = () => (
+const StatelessHOC = () => (
   <div className="app">
-    <Halo />
+    <StatelessHaloHOC />
     <Controls />
-    <StatelessCirclesHoc />
-    <StatelessSquaresHoc />
+    <StatelessCirclesHOC />
+    <StatelessSquaresHOC />
   </div>
 );
 
-export default InvalidStateless;
+export default StatelessHOC;

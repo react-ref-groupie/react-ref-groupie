@@ -1,3 +1,3 @@
-export { default } from './hook';
 export { RefProvider } from './provider';
-export { default as consumeRefs } from './consumer';
+export { default as useRefGroups } from './hook';
+export { default } from './hoc';

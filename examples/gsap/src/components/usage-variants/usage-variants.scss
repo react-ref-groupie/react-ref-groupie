@@ -1,0 +1,51 @@
+@import '../mixins/controls.scss';
+@import '../variables.scss';
+
+.app__class-usage {
+  .halo {
+    top: 246px;
+  }
+}
+
+.usage-variants {
+  @include controls;
+
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+
+  &__button {
+    &:first-child {
+      background-color: $blue;
+
+      &:hover {
+        background-color: $blue-hover;
+      }
+    }
+    &:first-child#{&}--active {
+      background-color: $blue-active;
+    }
+
+    &:nth-child(2) {
+      background-color: $pink;
+
+      &:hover {
+        background-color: $pink-hover;
+      }
+    }
+    &:nth-child(2)#{&}--active {
+      background-color: $pink-active;
+    }
+
+    &:last-child {
+      background-color: $green;
+
+      &:hover {
+        background-color: $green-hover;
+      }
+    }
+    &:last-child#{&}--active {
+      background-color: $green-active;
+    }
+  }
+}

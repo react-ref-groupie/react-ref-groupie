@@ -1,0 +1,23 @@
+@import '../variables.scss';
+
+@mixin controls($background: $red, $background-hover: $red-hover, $text-color: #fff) {
+  display: flex;
+  margin-bottom: 20px;
+
+  &__button {
+    background-color: $background;
+    color: $text-color;
+    font-weight: bold;
+    padding: 15px;
+    margin-left: 10px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $background-hover;
+    }
+
+    &:first-child {
+      margin: 0;
+    }
+  }
+}

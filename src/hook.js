@@ -7,13 +7,15 @@ import {
 
 import { RefGroupContext } from './provider';
 import initRefGroups from './init-ref-groups';
+import { clearRefByMark } from './helpers';
 
 const useRefGroups = (obj) => {
   const {
-    refGroupsMethods,
-    internalRefs,
-    blockGroups,
-    unblockGroups
+    refGroups: {
+      refGroupsMethods,
+      internalRefs
+    },
+    updateRefGroups
   } = useContext(RefGroupContext);
 
   const [ready, setReady] = useState(false);
@@ -27,9 +29,9 @@ const useRefGroups = (obj) => {
       };
       self.current.refGroups = initRefGroups(
         self.current,
-        blockGroups,
         internalRefs,
-        obj
+        obj,
+        updateRefGroups
       );
 
       setReady(true);
@@ -37,20 +39,14 @@ const useRefGroups = (obj) => {
       return () => {
         const {
           current: {
-            mark,
-            memoized,
-            invalid
+            memoized
           }
         } = self;
 
-        if (invalid) {
-          unblockGroups(mark);
-          return;
-        }
-
         for (let groupName in memoized) {
           for (let refName in memoized[groupName]) {
-            memoized[groupName][refName].locked = false;
+            const internalRef = memoized[groupName][refName];
+            clearRefByMark(internalRef, self.current.mark);
           }
         }
       };

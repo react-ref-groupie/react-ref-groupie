@@ -1,7 +1,8 @@
 import React from 'react';
-import { consumeRefs } from 'react-ref-groupie';
+import withRefGroups from 'react-ref-groupie';
+import compose from 'lodash/fp/compose';
 
-import useIterateState from '../use-iterate-state';
+import withIterateState from '../with-iterate-state';
 
 import './circles.scss';
 
@@ -53,4 +54,7 @@ const StatelessCircles = ({
   );
 };
 
-export default useIterateState(consumeRefs(StatelessCircles));
+export default compose(
+  withIterateState,
+  withRefGroups
+)(StatelessCircles);

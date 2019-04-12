@@ -1,3 +1,32 @@
+@import './variables.scss';
+
+.page {
+  &--blue {
+    background-color: $blue-background;
+
+    .squares,
+    .circles {
+      background-color: $blue-background;
+    }
+  }
+  &--pink {
+    background-color: $pink-background;
+
+    .squares,
+    .circles {
+      background-color: $pink-background;
+    }
+  }
+  &--green {
+    background-color: $green-background;
+
+    .squares,
+    .circles {
+      background-color: $green-background;
+    }
+  }
+}
+
 .app {
   display: flex;
   flex-direction: column;

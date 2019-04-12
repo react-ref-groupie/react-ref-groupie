@@ -1,13 +1,19 @@
-import { splitTemplate } from './helpers';
+import {
+  splitTemplate,
+  noSuchConfigError,
+  noSuchRefError,
+  clearRefByMark
+} from './helpers';
 
 const initRefGroups = (
   self,
-  blockGroups,
   internalRefs,
-  obj
+  obj,
+  updateRefGroups
 ) => {
   const mockObject = {};
   const keepRefs = {};
+  let shouldNotUpdate = true;
   let result;
 
   try {
@@ -19,7 +25,7 @@ const initRefGroups = (
         self.memoized[groupName] = self.memoized[groupName] || {};
 
         if (!internalRefs[groupName]) {
-          // TODO: add warning if there is no such group
+          noSuchConfigError(groupName);
           return accum;
         }
 
@@ -31,19 +37,14 @@ const initRefGroups = (
             const refGroup = internalRefs[groupName];
 
             if (!refGroup[refName]) {
-              // TODO: add warning that there is no such ref in config
+              noSuchRefError(groupName, refName);
               return accum;
-            } else if (refGroup[refName].locked) {
-              if (!self.invalid) {
-                blockGroups(obj, self.mark);
-              }
-              self.invalid = true;
-              throw new Error();
             }
 
             accum[groupName][refName] = refGroup[refName].ref;
             self.memoized[groupName][refName] = refGroup[refName];
-            refGroup[refName].locked = true;
+            refGroup[refName].lockedOn.push(self.mark);
+            shouldNotUpdate = shouldNotUpdate && false;
           }
 
           keepRefs[groupName][refName] = true;
@@ -59,13 +60,21 @@ const initRefGroups = (
 
   for (let groupName in self.memoized) {
     for (let refName in self.memoized[groupName]) {
-      if (keepRefs[groupName][refName]) {
+      if (
+        keepRefs[groupName]
+        && keepRefs[groupName][refName]
+      ) {
         break;
       }
 
-      self.memoized[groupName][refName].locked = false;
+      const internalRef = self.memoized[groupName][refName];
+      clearRefByMark(internalRef, self.mark);
       delete self.memoized[groupName][refName];
     }
+  }
+
+  if (!shouldNotUpdate) {
+    updateRefGroups();
   }
 
   return result;

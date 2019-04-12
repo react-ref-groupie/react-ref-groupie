@@ -3,11 +3,11 @@ import React from 'react';
 import Controls from '../controls';
 import { ClassCircles } from '../circles';
 import { ClassSquares } from '../squares';
-import Halo from '../halo';
+import { StatelessHaloHOC } from '../halo';
 
 const ClassComponents = () => (
-  <div className="app">
-    <Halo />
+  <div className="app app__class-usage">
+    <StatelessHaloHOC />
     <Controls />
     <ClassCircles />
     <ClassSquares />

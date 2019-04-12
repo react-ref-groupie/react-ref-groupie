@@ -1,7 +1,7 @@
 import React from 'react';
-import useRefGroups from 'react-ref-groupie';
+import { useRefGroups } from 'react-ref-groupie';
 
-import useIterateState from '../use-iterate-state';
+import withIterateState from '../with-iterate-state';
 
 import './squares.scss';
 
@@ -59,4 +59,4 @@ const StatelessSquares = ({
   );
 };
 
-export default useIterateState(StatelessSquares);
+export default withIterateState(StatelessSquares);

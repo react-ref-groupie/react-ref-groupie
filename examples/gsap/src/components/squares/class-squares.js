@@ -1,19 +1,11 @@
 import React from 'react';
-import { consumeRefs } from 'react-ref-groupie';
+import withRefGroups from 'react-ref-groupie';
 
 import './squares.scss';
 
 class Squares extends React.Component {
   constructor(props) {
     super(props);
-
-    this.refGroups = props.getRefGroups({
-      squares: `
-        firstSquare
-        secondSquare
-        thirdSquare
-      `
-    });
 
     this.state = {
       toggled: false,
@@ -50,7 +42,13 @@ class Squares extends React.Component {
         secondSquare,
         thirdSquare
       }
-    } = this.refGroups;
+    } = this.props.getRefGroups({
+      squares: `
+        firstSquare
+        secondSquare
+        thirdSquare
+      `
+    });
 
     return (
       <div
@@ -76,4 +74,4 @@ class Squares extends React.Component {
   }
 }
 
-export default consumeRefs(Squares);
+export default withRefGroups(Squares);
