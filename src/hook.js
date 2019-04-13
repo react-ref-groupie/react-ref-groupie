@@ -1,5 +1,4 @@
 import {
-  useState,
   useEffect,
   useContext,
   useRef
@@ -18,7 +17,6 @@ const useRefGroups = (obj) => {
     updateRefGroups
   } = useContext(RefGroupContext);
 
-  const [ready, setReady] = useState(false);
   const self = useRef();
 
   useEffect(
@@ -34,8 +32,6 @@ const useRefGroups = (obj) => {
         updateRefGroups
       );
 
-      setReady(true);
-
       return () => {
         const {
           current: {
@@ -43,11 +39,17 @@ const useRefGroups = (obj) => {
           }
         } = self;
 
+        let shouldUpdate = false;
         for (let groupName in memoized) {
           for (let refName in memoized[groupName]) {
             const internalRef = memoized[groupName][refName];
             clearRefByMark(internalRef, self.current.mark);
+            shouldUpdate = true;
           }
+        }
+
+        if (shouldUpdate) {
+          updateRefGroups();
         }
       };
     },
@@ -65,9 +67,8 @@ const useRefGroups = (obj) => {
   }
 
   return [
-    ready,
-    refGroupsMethods,
-    refGroups
+    refGroups,
+    refGroupsMethods
   ];
 }
 
