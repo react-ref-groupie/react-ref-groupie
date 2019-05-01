@@ -27,7 +27,10 @@ const processConfig = (config) => {
         case GLOBALS: {
           splitTemplate(currentConfig[key])
             .forEach((refName) => {
-              if (refs[configKey][refName]) {
+              if (
+                refs[configKey][refName]
+                || refGroupsMethods[configKey][refName]
+              ) {
                 logNameCollisionError(configKey, refName);
                 return;
               }
@@ -52,7 +55,7 @@ const processConfig = (config) => {
         }
 
         default: {
-          if (refs[key]) {
+          if (refs[configKey][key]) {
             logNameCollisionError(configKey, key);
             return;
           }

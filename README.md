@@ -3,8 +3,8 @@
 > Handle complex ref manipulation logic independently from component nesting.
 
 ![npm](https://img.shields.io/npm/v/react-ref-groupie.svg?style=flat-square)
+![Travis (.com)](https://img.shields.io/travis/com/react-ref-groupie/react-ref-groupie.svg?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/mpachin/react-ref-groupie.svg?style=flat-square)
-![Snyk Vulnerabilities for npm package version](https://img.shields.io/snyk/vulnerabilities/npm/react-ref-groupie.svg?style=flat-square)
 
 ![](./gifs/usage.gif)
 
@@ -262,8 +262,7 @@ With time new example apps may emerge, however, implementations will be about th
 
 # Roadmap
 
-* Implement memoization for `getRefGroups`/`useRefGroups`
-* Add tests and integration with [Travis CI](https://github.com/marketplace/travis-ci)
+* Add more tests
 * Add [JSDocs](http://usejsdoc.org/)
 
 # License
